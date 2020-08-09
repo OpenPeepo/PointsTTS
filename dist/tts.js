@@ -11,9 +11,7 @@ var settings = {
 };
 
 if (!settings.streamer || !settings.reward || !settings.tts_voice) {
-    console.log(settings);
-
-    location.replace("http://tts.openpeepo.com");
+    location.replace(new URL("setup", document.baseURI).href);
     return;
 }
 
@@ -36,6 +34,9 @@ function audio_queue_interval() {
     if (msg_queue.length > 0) {
         let msg = msg_queue.shift();
 
+        console.log("Requesting " + msg + "...");
+
+        // Change this to a local rate limiting server for the sake of not spamming the API :) Also offer paid Polly service soon
         let promise = fetch("https://cors-anywhere.herokuapp.com/https://streamlabs.com/polly/speak", {
             method: "POST",
             headers: {
@@ -47,10 +48,13 @@ function audio_queue_interval() {
             })
         }).then(r => r.json());
 
+        console.log("Requested " + msg + "!");
+
         if (!currentPromise) {
             currentPromise = promise.then(json => {
                 let speak_url = json.speak_url;
 
+                console.log("Received " + json + "!");
                 audio_queue.push(speak_url);
                 if (audio_queue.length <= 1) {
                     audio.src = speak_url;
@@ -62,6 +66,7 @@ function audio_queue_interval() {
                 promise.then(json => {
                     let speak_url = json.speak_url;
     
+                    console.log("Received " + json + "!");
                     audio_queue.push(speak_url);
                     if (audio_queue.length <= 1) {
                         audio.src = speak_url;
