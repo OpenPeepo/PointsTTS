@@ -1,0 +1,15 @@
+name: GitHub-Pages deployment
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  gh-pages-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Copy directory to gh-pages branch
+      uses: qoomon/actions-publish-to-github-pages@v1
+      with:
+        GITHUB_PAGES_SOURCE_DIR: dist
+        GITHUB_PAGES_REPLACE: true
