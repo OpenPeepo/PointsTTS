@@ -2,11 +2,10 @@ name: GitHub-Pages deployment
 
 on:
   push:
-    tags: ['v[0-9]+.[0-9]+.[0-9]+*']
+    branches: [master]
 
 jobs:
   gh-pages-deploy:
-    if: github.event.base_ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
     - name: Copy directory to branch 🚀
