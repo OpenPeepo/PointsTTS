@@ -79,6 +79,7 @@ var twitchClient = new tmi.client({
         debug: false
     },
     connection: {
+        secure: true,
         cluster: "aws",
         reconnect: true
     },
