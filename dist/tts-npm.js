@@ -135,6 +135,9 @@ skipButton.onclick = event => {
     audio.pause();
     audio.onended();
 }
+
+let slider = document.querySelector('#volume');
+slider.oninput = e => audio.volume = parseFloat(e.data);
 },{"node-fetch":4,"query-string":6,"tmi.js":9}],2:[function(require,module,exports){
 
 },{}],3:[function(require,module,exports){
