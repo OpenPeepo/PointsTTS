@@ -97,7 +97,7 @@ let urlDisplay = document.getElementById("url-display");
 let urlInput = document.getElementById("url-input");
 urlRequestButton.onclick = () => {
     let voice = document.getElementById("voice-selection").value;
-    let url = "https://tts.ipat.live?&c=" + encodeURIComponent(actualChannelName)
+    let url = "http://tts.openpeepo.com?&c=" + encodeURIComponent(actualChannelName)
     + "&r=" + encodeURIComponent(rewardId)
     + "&t=" + encodeURIComponent(voice ? voice : "Brian");
 

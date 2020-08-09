@@ -1,15 +1,12 @@
 {
-  "name": "PointsTTS",
+  "name": "points-tts",
+  "description": "Allows streamers to enable TTS with viewers redeeming Channel Points",
   "version": "1.0.0",
-  "description": "",
-  "main": "setup.js",
   "scripts": {
-    "start": "node .",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "rebuild": "browserify tts.js -o tts-npm.js && browserify setup.js -o setup-npm.js"
+    "rebuild": "browserify public/tts.js -o public/tts-npm.js && browserify public/setup.js -o public/setup-npm.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["Twitch", "TTS", "Text-to-Speech"],
+  "author": "IPat",
   "license": "ISC",
   "dependencies": {
     "babel-core": "^6.26.3",
@@ -17,6 +14,5 @@
     "babelify": "^8.0.0",
     "node-fetch": "^2.6.0",
     "tmi.js": "^1.5.0"
-  },
-  "devDependencies": {}
+  }
 }
