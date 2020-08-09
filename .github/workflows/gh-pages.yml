@@ -2,13 +2,16 @@ name: GitHub-Pages deployment
 
 on:
   push:
-    tags: ['v[0-9]+.[0-9]+.[0-9]+*']
+    branches: [master]
 
 jobs:
   gh-pages-deploy:
-    if: github.event.base_ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout 🛎️
+      uses: actions/checkout@v2.3.1
+      with:
+        persist-credentials: false
     - name: Copy directory to branch 🚀
       uses: JamesIves/github-pages-deploy-action@3.5.9
       with:
