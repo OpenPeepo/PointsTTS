@@ -13,7 +13,7 @@ var settings = {
 if (!settings.streamer || !settings.reward || !settings.tts_voice) {
     console.log(settings);
 
-    location.replace("https://tts.openpeepo.com");
+    location.replace("http://tts.openpeepo.com");
     return;
 }
 
