@@ -1,6 +1,137 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+const tmi = require('tmi.js');
 
-},{}],2:[function(require,module,exports){
+let setupButton = document.querySelector("#pointsetupbutton");
+let setupScreen = document.querySelector("#channelpointsetup");
+let setupCancelButton = document.querySelector("#setupcancel");
+let channelInput = document.querySelector("#channel");
+let urlRequestButton = document.querySelector("#url-request");
+
+
+let rewardId;
+let actualChannelName;
+function scanChannelReward(channel) {
+    var twitchClient = new tmi.client({
+        options: {
+            debug: false
+        },
+        connection: {
+            cluster: "aws",
+            reconnect: true
+        },
+        channels: [channel]
+    });
+
+    twitchClient.connect();
+    twitchClient.on('chat', (channel, userstate, message) => {
+        if (userstate['custom-reward-id'] && userstate['badges'].broadcaster && message == "!setup") {
+            clearInterval(observerIntervalId);
+            channelPlaceholder.style = "color: #44EE44";
+            channelPlaceholder.innerHTML = "<b>Success!</b> TTS reward recognized. :)";
+            rewardId = userstate['custom-reward-id'];
+            setupButton.style = "background-color:rgba(20, 50, 20, 0.6);";
+            actualChannelName = channelInput.value;
+            document.getElementById('current-channel').innerHTML = "Logged in as " + actualChannelName;
+            checkReadynessForButton();
+            setTimeout(() => {
+                setupScreen.style = "display: none;";
+                channelPlaceholder.style = "color: #AAAAAA";
+                observerIntervalId = setInterval(observerCallback, 600);
+            }, 6000);
+            twitchClient.disconnect();
+        }
+    });
+}
+
+let channelPlaceholder = document.querySelector("#channel-placeholder");
+let dotCounter = 1;
+let observerCallback = () => {
+    let progressName = "Observing chat of " + channelInput.value;
+
+    for (let i = 0; i < dotCounter; i++) {
+        progressName += ".";
+    }
+    if (dotCounter++ >= 3) dotCounter = 1;
+
+    channelPlaceholder.innerHTML = progressName;
+};
+
+let observerIntervalId = setInterval(observerCallback, 600);
+
+let cacheTtsRewardId;
+setupButton.onclick = () => {
+    if (!channelInput.value) return;
+
+    setupScreen.style = "";
+
+    cacheTtsRewardId = rewardId;
+    scanChannelReward(channelInput.value);
+    checkReadynessForButton();
+}
+
+setupCancelButton.onclick = () => {
+    setupScreen.style = "display: none;";
+
+    rewardId = cacheTtsRewardId;
+    checkReadynessForButton();
+}
+
+channelInput.onchange = () => {
+    if (!channelInput.value || channelInput.value == "") {
+        setupButton.style = "display: none;"
+    } else {
+        setupButton.style = ""
+    }
+    setupButton.style = "background-color:rgba(0, 0, 0, 0.6);";
+    checkReadynessForButton();
+}
+
+function checkReadynessForButton() {
+    if (channelInput.value && channelInput.value != "" && rewardId) {
+        document.getElementById("url-request").style = "";
+    } else {
+        document.getElementById("url-request").style = "display: none;";
+    }
+}
+
+let urlDisplay = document.getElementById("url-display");
+let urlInput = document.getElementById("url-input");
+urlRequestButton.onclick = () => {
+    let voice = document.getElementById("voice-selection").value;
+    let url = "http://tts.openpeepo.com?&c=" + encodeURIComponent(actualChannelName)
+    + "&r=" + encodeURIComponent(rewardId)
+    + "&v=" + encodeURIComponent(voice ? voice : "Brian");
+
+    urlInput.value = url;
+    urlDisplay.style = "";
+}
+
+
+/*Dropdown Menu*/
+$('.dropdown').click(function () {
+    $(this).attr('tabindex', 1).focus();
+    $(this).toggleClass('active');
+    $(this).find('.dropdown-menu').slideToggle(300);
+});
+$('.dropdown').focusout(function () {
+    $(this).removeClass('active');
+    $(this).find('.dropdown-menu').slideUp(300);
+});
+$('.dropdown .dropdown-menu li').click(function () {
+    $(this).parents('.dropdown').find('span').text($(this).text());
+    document.getElementById("voice-placeholder").style = "";
+    $(this).parents('.dropdown').find('input').attr('value', $(this).attr('id'));
+});
+/*End Dropdown Menu*/
+
+
+$('.dropdown-menu li').click(() => {
+    let input = '<b>' + document.getElementById("voice-selection").value + '</b>';
+    document.querySelector('#volume-placeholder').innerHTML = input;
+});
+},{"tmi.js":4}],2:[function(require,module,exports){
+
+},{}],3:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -186,7 +317,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -194,7 +325,7 @@ module.exports = {
 	Client: require("./lib/client")
 };
 
-},{"./lib/client":5}],4:[function(require,module,exports){
+},{"./lib/client":6}],5:[function(require,module,exports){
 "use strict";
 
 var request = require("request");
@@ -255,7 +386,7 @@ var api = function api(options, callback) {
 
 module.exports = api;
 
-},{"./utils":11,"request":1}],5:[function(require,module,exports){
+},{"./utils":12,"request":2}],6:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -1619,7 +1750,7 @@ if (typeof window !== "undefined") {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./api":4,"./commands":6,"./events":7,"./logger":8,"./parser":9,"./timer":10,"./utils":11,"ws":1}],6:[function(require,module,exports){
+},{"./api":5,"./commands":7,"./events":8,"./logger":9,"./parser":10,"./timer":11,"./utils":12,"ws":2}],7:[function(require,module,exports){
 "use strict";
 
 var _ = require("./utils");
@@ -2327,7 +2458,7 @@ module.exports = {
     }
 };
 
-},{"./utils":11}],7:[function(require,module,exports){
+},{"./utils":12}],8:[function(require,module,exports){
 "use strict";
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -2695,7 +2826,7 @@ function isUndefined(arg) {
     return arg === void 0;
 }
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 "use strict";
 
 var _ = require("./utils");
@@ -2726,7 +2857,7 @@ module.exports = {
     fatal: log("fatal")
 };
 
-},{"./utils":11}],9:[function(require,module,exports){
+},{"./utils":12}],10:[function(require,module,exports){
 "use strict";
 
 /*
@@ -2976,7 +3107,7 @@ module.exports = {
     }
 };
 
-},{"./utils":11}],10:[function(require,module,exports){
+},{"./utils":12}],11:[function(require,module,exports){
 "use strict";
 
 // Initialize the queue with a specific delay..
@@ -3031,7 +3162,7 @@ queue.prototype.clear = function clear() {
 
 exports.queue = queue;
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -3256,135 +3387,4 @@ var self = module.exports = {
 };
 
 }).call(this,require('_process'))
-},{"_process":2}],12:[function(require,module,exports){
-const tmi = require('tmi.js');
-
-let setupButton = document.querySelector("#pointsetupbutton");
-let setupScreen = document.querySelector("#channelpointsetup");
-let setupCancelButton = document.querySelector("#setupcancel");
-let channelInput = document.querySelector("#channel");
-let urlRequestButton = document.querySelector("#url-request");
-
-
-let rewardId;
-let actualChannelName;
-function scanChannelReward(channel) {
-    var twitchClient = new tmi.client({
-        options: {
-            debug: false
-        },
-        connection: {
-            cluster: "aws",
-            reconnect: true
-        },
-        channels: [channel]
-    });
-
-    twitchClient.connect();
-    twitchClient.on('chat', (channel, userstate, message) => {
-        if (userstate['custom-reward-id'] && userstate['badges'].broadcaster && message == "!setup") {
-            clearInterval(observerIntervalId);
-            channelPlaceholder.style = "color: #44EE44";
-            channelPlaceholder.innerHTML = "<b>Success!</b> TTS reward recognized. :)";
-            rewardId = userstate['custom-reward-id'];
-            setupButton.style = "background-color:rgba(20, 50, 20, 0.6);";
-            actualChannelName = channelInput.value;
-            document.getElementById('current-channel').innerHTML = "Logged in as " + actualChannelName;
-            checkReadynessForButton();
-            setTimeout(() => {
-                setupScreen.style = "display: none;";
-                channelPlaceholder.style = "color: #AAAAAA";
-                observerIntervalId = setInterval(observerCallback, 600);
-            }, 6000);
-            twitchClient.disconnect();
-        }
-    });
-}
-
-let channelPlaceholder = document.querySelector("#channel-placeholder");
-let dotCounter = 1;
-let observerCallback = () => {
-    let progressName = "Observing chat of " + channelInput.value;
-
-    for (let i = 0; i < dotCounter; i++) {
-        progressName += ".";
-    }
-    if (dotCounter++ >= 3) dotCounter = 1;
-
-    channelPlaceholder.innerHTML = progressName;
-};
-
-let observerIntervalId = setInterval(observerCallback, 600);
-
-let cacheTtsRewardId;
-setupButton.onclick = () => {
-    if (!channelInput.value) return;
-
-    setupScreen.style = "";
-
-    cacheTtsRewardId = rewardId;
-    scanChannelReward(channelInput.value);
-    checkReadynessForButton();
-}
-
-setupCancelButton.onclick = () => {
-    setupScreen.style = "display: none;";
-
-    rewardId = cacheTtsRewardId;
-    checkReadynessForButton();
-}
-
-channelInput.onchange = () => {
-    if (!channelInput.value || channelInput.value == "") {
-        setupButton.style = "display: none;"
-    } else {
-        setupButton.style = ""
-    }
-    setupButton.style = "background-color:rgba(0, 0, 0, 0.6);";
-    checkReadynessForButton();
-}
-
-function checkReadynessForButton() {
-    if (channelInput.value && channelInput.value != "" && rewardId) {
-        document.getElementById("url-request").style = "";
-    } else {
-        document.getElementById("url-request").style = "display: none;";
-    }
-}
-
-let urlDisplay = document.getElementById("url-display");
-let urlInput = document.getElementById("url-input");
-urlRequestButton.onclick = () => {
-    let voice = document.getElementById("voice-selection").value;
-    let url = "https://tts.ipat.live?&c=" + encodeURIComponent(actualChannelName)
-    + "&r=" + encodeURIComponent(rewardId)
-    + "&t=" + encodeURIComponent(voice ? voice : "Brian");
-
-    urlInput.value = url;
-    urlDisplay.style = "";
-}
-
-
-/*Dropdown Menu*/
-$('.dropdown').click(function () {
-    $(this).attr('tabindex', 1).focus();
-    $(this).toggleClass('active');
-    $(this).find('.dropdown-menu').slideToggle(300);
-});
-$('.dropdown').focusout(function () {
-    $(this).removeClass('active');
-    $(this).find('.dropdown-menu').slideUp(300);
-});
-$('.dropdown .dropdown-menu li').click(function () {
-    $(this).parents('.dropdown').find('span').text($(this).text());
-    document.getElementById("voice-placeholder").style = "";
-    $(this).parents('.dropdown').find('input').attr('value', $(this).attr('id'));
-});
-/*End Dropdown Menu*/
-
-
-$('.dropdown-menu li').click(() => {
-    let input = '<b>' + document.getElementById("voice-selection").value + '</b>';
-    document.querySelector('#volume-placeholder').innerHTML = input;
-});
-},{"tmi.js":3}]},{},[12]);
+},{"_process":3}]},{},[1]);

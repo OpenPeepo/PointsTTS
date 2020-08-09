@@ -5,13 +5,18 @@
   "scripts": {
     "rebuild": "browserify dist/tts.js -o dist/tts-npm.js && browserify dist/setup.js -o dist/setup-npm.js"
   },
-  "keywords": ["Twitch", "TTS", "Text-to-Speech"],
+  "keywords": [
+    "Twitch",
+    "TTS",
+    "Text-to-Speech"
+  ],
   "author": "IPat",
   "license": "ISC",
   "dependencies": {
     "babel-core": "^6.26.3",
     "babel-preset-es2015": "^6.24.1",
     "babelify": "^8.0.0",
+    "browserify": "^16.5.2",
     "node-fetch": "^2.6.0",
     "tmi.js": "^1.5.0"
   }
