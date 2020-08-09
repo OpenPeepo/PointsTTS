@@ -2,14 +2,17 @@ name: GitHub-Pages deployment
 
 on:
   push:
-    branches: [ master ]
+    tags: ['v[0-9]+.[0-9]+.[0-9]+*']
 
 jobs:
   gh-pages-deploy:
+    if: github.event.base_ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
-    - name: Copy directory to gh-pages branch
-      uses: qoomon/actions-publish-to-github-pages@v1
+    - name: Copy directory to branch 🚀
+      uses: JamesIves/github-pages-deploy-action@3.5.9
       with:
-        # GITHUB_PAGES_SOURCE_DIR: dist
-        GITHUB_PAGES_REPLACE: false
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: dist
+        SINGLE_COMMIT: true
