@@ -3,7 +3,7 @@
   "description": "Allows streamers to enable TTS with viewers redeeming Channel Points",
   "version": "1.0.0",
   "scripts": {
-    "rebuild": "browserify public/tts.js -o public/tts-npm.js && browserify public/setup.js -o public/setup-npm.js"
+    "rebuild": "browserify dist/tts.js -o dist/tts-npm.js && browserify dist/setup.js -o dist/setup-npm.js"
   },
   "keywords": ["Twitch", "TTS", "Text-to-Speech"],
   "author": "IPat",
