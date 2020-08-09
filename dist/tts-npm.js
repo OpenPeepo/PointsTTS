@@ -142,7 +142,7 @@ skipButton.onclick = event => {
 }
 
 let slider = document.querySelector('#volume');
-slider.oninput = e => audio.volume = parseFloat(e.data);
+slider.oninput = e => audio.volume = parseFloat(slider.value);
 },{"node-fetch":4,"query-string":6,"tmi.js":9}],2:[function(require,module,exports){
 
 },{}],3:[function(require,module,exports){

@@ -141,4 +141,4 @@ skipButton.onclick = event => {
 }
 
 let slider = document.querySelector('#volume');
-slider.oninput = e => audio.volume = parseFloat(e.data);
+slider.oninput = e => audio.volume = parseFloat(slider.value);
