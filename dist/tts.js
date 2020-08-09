@@ -5,13 +5,13 @@ const urlParams = new URLSearchParams(window.location.href);
 var settings = {
     streamer: urlParams.get('c'),
     reward: urlParams.get('r'),
-    tts_voice: urlParams.get('t')
+    tts_voice: urlParams.get('v')
 };
 
 if (!settings.streamer || !settings.reward || !settings.tts_voice) {
     console.log(settings);
 
-    location.replace("https://tts.openpeepo.com");
+    location.replace("https://tts.openpeepo.com/setup.html");
 }
 
 let msg_queue = [];

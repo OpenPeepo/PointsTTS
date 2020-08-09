@@ -99,7 +99,7 @@ urlRequestButton.onclick = () => {
     let voice = document.getElementById("voice-selection").value;
     let url = "http://tts.openpeepo.com?&c=" + encodeURIComponent(actualChannelName)
     + "&r=" + encodeURIComponent(rewardId)
-    + "&t=" + encodeURIComponent(voice ? voice : "Brian");
+    + "&v=" + encodeURIComponent(voice ? voice : "Brian");
 
     urlInput.value = url;
     urlDisplay.style = "";
