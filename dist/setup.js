@@ -1,11 +1,29 @@
 const tmi = require('tmi.js');
 
+const querystring = require('query-string');
+const appendQuery = require('append-query');
+
 let setupButton = document.querySelector("#pointsetupbutton");
 let setupScreen = document.querySelector("#channelpointsetup");
 let setupCancelButton = document.querySelector("#setupcancel");
 let channelInput = document.querySelector("#channel");
 let urlRequestButton = document.querySelector("#url-request");
 
+
+const urlParams = querystring.parse(window.location.href);
+var settings = {
+    streamer: urlParams['c'],
+    reward: urlParams['r'],
+    tts_voice: urlParams['v']
+};
+if (settings.streamer && settings.reward && settings.tts_voice) {
+    location.replace(appendQuery("https://tts.openpeepo.com", {
+        c: actualChannelName,
+        r: rewardId,
+        v: voice ? voice : "Brian"
+    }));
+    return;
+}
 
 let rewardId;
 let actualChannelName;
@@ -24,7 +42,7 @@ function scanChannelReward(channel) {
 
     twitchClient.connect();
     twitchClient.on('chat', (channel, userstate, message) => {
-        if (userstate['custom-reward-id'] && userstate['badges'].broadcaster && message == "!setup") {
+        if (userstate['custom-reward-id'] && (userstate['badges'].broadcaster || userstate['badges'].moderator) && message == "!setup") {
             clearInterval(observerIntervalId);
             channelPlaceholder.style = "color: #44EE44";
             channelPlaceholder.innerHTML = "<b>Success!</b> TTS reward recognized. :)";
@@ -98,9 +116,12 @@ let urlDisplay = document.getElementById("url-display");
 let urlInput = document.getElementById("url-input");
 urlRequestButton.onclick = () => {
     let voice = document.getElementById("voice-selection").value;
-    let url = "https://tts.openpeepo.com?&c=" + encodeURIComponent(actualChannelName)
-    + "&r=" + encodeURIComponent(rewardId)
-    + "&v=" + encodeURIComponent(voice ? voice : "Brian");
+    
+    let url = appendQuery("https://tts.openpeepo.com", {
+        c: actualChannelName,
+        r: rewardId,
+        v: voice ? voice : "Brian"
+    });
 
     urlInput.value = url;
     urlDisplay.style = "";

@@ -1,17 +1,20 @@
 const fetch = require('node-fetch');
 const tmi = require('tmi.js');
 
-const urlParams = new URLSearchParams(window.location.href);
+const querystring = require('query-string');
+
+const urlParams = querystring.parse(window.location.href);
 var settings = {
-    streamer: urlParams.get('c'),
-    reward: urlParams.get('r'),
-    tts_voice: urlParams.get('v')
+    streamer: urlParams['c'],
+    reward: urlParams['r'],
+    tts_voice: urlParams['v']
 };
 
 if (!settings.streamer || !settings.reward || !settings.tts_voice) {
     console.log(settings);
 
     location.replace("https://ghp.openpeepo.com/PointsTTS/setup.html");
+    return;
 }
 
 let msg_queue = [];
@@ -24,9 +27,7 @@ audio.onended = () => {
         audio.src = audio_queue[0];
         audio.play();
     } else {
-        // clearInterval(audio_queue_interval_id);
         audio_queue_interval();
-        // audio_queue_interval_id = setInterval(audio_queue_interval, 6000);
     }
 }
 
@@ -72,7 +73,6 @@ function audio_queue_interval() {
         }
     }
 };
-// let audio_queue_interval_id = setInterval(audio_queue_interval, 6000);
 
 var twitchClient = new tmi.client({
     options: {
@@ -100,9 +100,7 @@ twitchClient.on('chat', (channel, userstate, message) => {
             if (text && text != "") {
                 msg_queue.push([voice, text]);
                 if (msg_queue.length <= 1) {
-                    // clearInterval(audio_queue_interval_id);
                     audio_queue_interval();
-                    // audio_queue_interval_id = setInterval(audio_queue_interval, 6000);
                 }
             }
 
