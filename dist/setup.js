@@ -9,22 +9,6 @@ let setupCancelButton = document.querySelector("#setupcancel");
 let channelInput = document.querySelector("#channel");
 let urlRequestButton = document.querySelector("#url-request");
 
-
-const urlParams = querystring.parse(window.location.href);
-var settings = {
-    streamer: urlParams['c'],
-    reward: urlParams['r'],
-    tts_voice: urlParams['v']
-};
-if (settings.streamer && settings.reward && settings.tts_voice) {
-    location.replace(appendQuery("https://tts.openpeepo.com", {
-        c: actualChannelName,
-        r: rewardId,
-        v: voice ? voice : "Brian"
-    }));
-    return;
-}
-
 let rewardId;
 let actualChannelName;
 function scanChannelReward(channel) {
@@ -117,7 +101,7 @@ let urlInput = document.getElementById("url-input");
 urlRequestButton.onclick = () => {
     let voice = document.getElementById("voice-selection").value;
     
-    let url = appendQuery("https://tts.openpeepo.com", {
+    let url = appendQuery("https://ghp.openpeepo.com/PointsTTS", {
         c: actualChannelName,
         r: rewardId,
         v: voice ? voice : "Brian"

@@ -14,7 +14,7 @@ var settings = {
 if (!settings.streamer || !settings.reward || !settings.tts_voice) {
     console.log(settings);
 
-    location.replace("https://ghp.openpeepo.com/PointsTTS/setup.html");
+    location.replace("https://tts.openpeepo.com");
     return;
 }
 
