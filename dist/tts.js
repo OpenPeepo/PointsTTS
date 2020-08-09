@@ -3,7 +3,7 @@ const tmi = require('tmi.js');
 
 const querystring = require('query-string');
 
-const urlParams = querystring.parse(window.location.href);
+const urlParams = querystring.parse(window.location.href.replace("\?", "\?&"));
 var settings = {
     streamer: urlParams['c'],
     reward: urlParams['r'],
