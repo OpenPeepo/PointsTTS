@@ -1,6 +1,5 @@
 const tmi = require('tmi.js');
 
-const querystring = require('query-string');
 const appendQuery = require('append-query');
 
 let setupButton = document.querySelector("#pointsetupbutton");
@@ -101,7 +100,7 @@ let urlInput = document.getElementById("url-input");
 urlRequestButton.onclick = () => {
     let voice = document.getElementById("voice-selection").value;
     
-    let url = appendQuery("https://ghp.openpeepo.com/PointsTTS", {
+    let url = appendQuery(new URL(".", document.baseURI).href, {
         c: actualChannelName,
         r: rewardId,
         v: voice ? voice : "Brian"
