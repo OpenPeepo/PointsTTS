@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PointsTTS setup</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script defer src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script defer src="./setup-npm.js"></script>
+</head>
+
+<body>
+    <div class="overlay" id="channelpointsetup" style="display: none;">
+        <div>Redeem TTS with <b>!setup</b> as the text.</div>
+        <div><a href="#" class="button" id="setupcancel">Cancel</a></div>
+        <div style="color: #AAAAAA" id="channel-placeholder"><span></span></div>
+    </div>
+    <div class="overlay" id="url-display" style="display: none;">
+        <div style="color: #AAAAAA">Create a <b>browser source</b> or use a <b>custom browser dock</b> for the URL in
+            OBS Studio.</div>
+        <div><input type='text' readonly='readonly' id='url-input' onclick="this.select()"></input></div>
+        <div><a href="#" class="button" id="url-copy"
+                onclick="document.querySelector('#url-input').select();document.execCommand('copy')"><b>Copy URL</b></a>
+        </div>
+    </div>
+
+    <div id="gui-grid">
+        <div id="gui-channel">
+            <span class="choose" id="current-channel">Currently not logged in</span>
+            <input type="text" id="channel" placeholder="What's your channel name?" autocorrect="off"
+                autocapitalize="off" spellcheck="false">
+            <a href="#" class="button" id="pointsetupbutton" style="display:none;"><svg
+                    class="tw-svg__asset tw-svg__asset--channelpoints tw-svg__asset--inherit" version="1.1"
+                    viewBox="0 0 20 20" x="0px" y="0px">
+                    <g>
+                        <path d="M10 6a4 4 0 014 4h-2a2 2 0 00-2-2V6z"></path>
+                        <path fill-rule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-2 0a6 6 0 11-12 0 6 6 0 0112 0z" clip-rule="evenodd">
+                        </path>
+                    </g>
+                </svg></a>
+        </div>
+        <div id="gui-tts">
+            <div class="container">
+                <span class="choose">Which TTS voice?</span>
+
+                <div class="dropdown">
+                    <div class="select">
+                        <span id="voice-placeholder" style="color: gray;">Default: Brian</span>
+                        <i class="fa fa-chevron-left"></i>
+                    </div>
+                    <input type="hidden" id="voice-selection">
+                    <ul class="dropdown-menu">
+                        <li id="Amy">Amy</li>
+                        <li id="Brian">Brian</li>
+                        <li id="Emma">Emma</li>
+                        <li id="Geraint">Geraint</li>
+                        <li id="Ivy">Ivy</li>
+                        <li id="Joanna">Joanna</li>
+                        <li id="Justin">Justin</li>
+                        <li id="Kendra">Kendra</li>
+                        <li id="Kimberly">Kimberly</li>
+                        <li id="Raveena">Raveena</li>
+                        <li id="Russell">Russell</li>
+                        <li id="Salli">Salli</li>
+                        <li id="Nicole">Nicole</li>
+                    </ul>
+                </div>
+                <br />
+                <a href="#" class="button" id="url-request" style="display: none;">Ready to go!</a>
+            </div>
+            <div class="button-container" id="ref-twitch">
+                <a href="https://www.twitch.tv/videos/579587839" target="_blank" class="button">
+                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 2400 2800"
+                        style="enable-background:new 0 0 2400 2800;" xml:space="preserve">
+                        <style type="text/css">
+                            .st0 {
+                                fill: #FFFFFF;
+                            }
+
+                            .st1 {
+                                fill: #9146FF;
+                            }
+                        </style>
+                        <title>Asset 2</title>
+                        <g>
+                            <polygon class="st0"
+                                points="2200,1300 1800,1700 1400,1700 1050,2050 1050,1700 600,1700 600,200 2200,200 	" />
+                            <g>
+                                <g id="Layer_1-2">
+                                    <path class="st1" d="M500,0L0,500v1800h600v500l500-500h400l900-900V0H500z M2200,1300l-400,400h-400l-350,350v-350H600V200h1600
+				V1300z" />
+                                    <rect x="1700" y="550" class="st1" width="200" height="600" />
+                                    <rect x="1150" y="550" class="st1" width="200" height="600" />
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+                </a>
+                <span>Made by IPat</span>
+            </div>
+            <div class="button-container" id="ref-tutorial">
+                <a href="https://dev.ipat.live" target="_blank" class="button" style="color: #6441a5; font-size:10vmax"><b>?</b></a>
+                <span>Tutorial</span>
+            </div>
+        </div>
+</body>
+
+</html>
