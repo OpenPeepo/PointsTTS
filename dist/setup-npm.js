@@ -29,18 +29,20 @@ function scanChannelReward(channel) {
         let isMod = userstate.mod || userstate['user-type'] === 'mod';
         let isBroadcaster = channel.slice(1) === userstate.username;
         let isModUp = isMod || isBroadcaster;
-        
+
         if (userstate['custom-reward-id'] && isModUp && message == "!setup") {
             clearInterval(observerIntervalId);
             channelPlaceholder.style = "color: #44EE44";
-            channelPlaceholder.innerHTML = "<b>Success!</b> TTS reward recognized. :)";
+            channelPlaceholder.innerHTML = "<b>Success!</b> TTS reward recognized. :) <i style=\"color:gray\">Wait a few seconds...</i>";
             rewardId = userstate['custom-reward-id'];
             setupButton.style = "background-color:rgba(20, 50, 20, 0.6);";
+            setupCancelButton.style = "display: none";
             actualChannelName = channelInput.value;
             document.getElementById('current-channel').innerHTML = "Logged in as " + actualChannelName;
             checkReadynessForButton();
             setTimeout(() => {
                 setupScreen.style = "display: none;";
+                setupCancelButton.style = "";
                 channelPlaceholder.style = "color: #AAAAAA";
                 observerIntervalId = setInterval(observerCallback, 600);
             }, 6000);
