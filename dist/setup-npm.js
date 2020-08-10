@@ -26,7 +26,11 @@ function scanChannelReward(channel) {
 
     twitchClient.connect();
     twitchClient.on('chat', (channel, userstate, message) => {
-        if (userstate['custom-reward-id'] && (userstate['badges'].broadcaster || userstate['badges'].moderator) && message == "!setup") {
+        let isMod = userstate.mod || userstate['user-type'] === 'mod';
+        let isBroadcaster = channel.slice(1) === userstate.username;
+        let isModUp = isMod || isBroadcaster;
+        
+        if (userstate['custom-reward-id'] && isModUp && message == "!setup") {
             clearInterval(observerIntervalId);
             channelPlaceholder.style = "color: #44EE44";
             channelPlaceholder.innerHTML = "<b>Success!</b> TTS reward recognized. :)";

@@ -95,7 +95,7 @@ let voices = ["nicole", "kevin", "enrique", "tatyana", "russell", "lotte", "gera
 twitchClient.connect();
 twitchClient.on('chat', (channel, userstate, message) => {
     if (userstate['custom-reward-id'] && userstate['custom-reward-id'] == settings.reward) {
-        if (message == "") return;
+        if (message == "" || message == "!setup") return;
 
         let voice = settings.tts_voice.toLowerCase();
 
