@@ -95,7 +95,7 @@ var twitchClient = new tmi.client({
 let voices = ["nicole", "kevin", "enrique", "tatyana", "russell", "lotte", "geraint", "carmen", "mads", "penelope", "mia", "joanna", "matthew", "brian", "seoyeon", "ruben", "ricardo", "maxim", "lea", "giorgio", "carla", "naja", "maja", "astrid", "ivy", "kimberly", "chantal", "amy", "vicki", "marlene", "ewa", "conchita", "camila", "karl", "zeina", "miguel", "mathieu", "justin", "lucia", "jacek", "bianca", "takumi", "ines", "gwyneth", "cristiano", "mizuki", "celine", "zhiyu", "jan", "liv", "joey", "raveena", "filiz", "dora", "salli", "aditi", "vitoria", "emma", "lupe", "hans", "kendra"]
 twitchClient.connect();
 twitchClient.on('chat', (channel, userstate, message) => {
-    if (userstate['custom-reward-id'] && userstate['custom-reward-id'] == settings.reward) {
+    if (userstate['msg-id'] == settings.reward || userstate['custom-reward-id'] == settings.reward) {
         if (message == "" || message == "!setup") return;
 
         let voice = settings.tts_voice.toLowerCase();

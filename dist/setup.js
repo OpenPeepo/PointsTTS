@@ -29,11 +29,11 @@ function scanChannelReward(channel) {
         let isBroadcaster = channel.slice(1) === userstate.username;
         let isModUp = isMod || isBroadcaster;
 
-        if (userstate['custom-reward-id'] && isModUp && message == "!setup") {
+        if ((userstate['msg-id'] == 'highlighted-message' || userstate['custom-reward-id']) && isModUp && message == "!setup") {
             clearInterval(observerIntervalId);
             channelPlaceholder.style = "color: #44EE44";
             channelPlaceholder.innerHTML = "<b>Success!</b> TTS reward recognized. :) <i style=\"color:gray\">Wait a few seconds...</i>";
-            rewardId = userstate['custom-reward-id'];
+            rewardId = userstate['custom-reward-id'] || userstate['msg-id'];
             setupButton.style = "background-color:rgba(20, 50, 20, 0.6);";
             setupCancelButton.style = "display: none";
             actualChannelName = channelInput.value;
