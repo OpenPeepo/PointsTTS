@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-175327682-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-175327682-1');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PointsTTS</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="tts.css">
+    <script defer src="tts.js"></script>
+</head>
+
+<body>
+    <audio src="" style="display:none;"></audio>
+    <div style="justify-self: flex-start;"><input type="range" min="0.0" max="1.0" value="1.0" step="0.01" class="slider" id="volume">
+    </div>
+    <div id="skip-wrapper">
+        <a href="#" class="button" id="skip">
+            <svg xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink" version="1.1"
+                width="50px" height="50px" id="Capa_1" x="0px" y="0px" viewBox="0 0 256 256"
+                style="enable-background:new 0 0 256 256;" xml:space="preserve">
+                <g>
+                    <polygon points="0,256 181.333,128 0,0" />
+                    <rect x="213.333" y="0" width="42.667" height="256" />
+                </g>
+            </svg>
+        </a>
+    </div>
+</body>
+
+</html>
