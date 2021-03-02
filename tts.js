@@ -40,7 +40,7 @@ function audio_queue_interval() {
         // Change this to a local rate limiting server for the sake of not spamming the API :) Also offer paid Polly service soon
         let promise = fetch("http://localhost:42777/", {
             method: "POST",
-            mode: "no-cors",
+            // mode: "no-cors",
             headers: {
                 'Content-Type': 'application/json'
             },
