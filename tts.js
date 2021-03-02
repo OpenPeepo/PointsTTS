@@ -46,7 +46,8 @@ function audio_queue_interval() {
             body: JSON.stringify({
                 voice: msg[0].charAt(0).toUpperCase() + msg[0].slice(1),
                 text: msg[1]
-            })
+            }),
+	    mode: "no-cors"
         }).then(r => r.json());
 
         console.log("Requested " + msg + "!");
