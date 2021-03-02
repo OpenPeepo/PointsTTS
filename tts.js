@@ -38,7 +38,7 @@ function audio_queue_interval() {
         console.log("Requesting " + msg + "...");
 
         // Change this to a local rate limiting server for the sake of not spamming the API :) Also offer paid Polly service soon
-        let promise = fetch("https://app.cors.bridged.cc/?method=POST&url=https://streamlabs.com&path=/polly/speak", {
+        let promise = fetch("http://localhost:42777/", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
